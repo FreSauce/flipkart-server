@@ -1,4 +1,4 @@
-const User = require("../model/user");
+const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const AppError = require("../AppError");
