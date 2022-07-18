@@ -93,7 +93,7 @@ exports.protect = async (req, res, next) => {
   } else if (req.cookies?.auth) {
     token = req.cookies?.auth;
   }
-  console.log(token);
+ 
   if (!token) {
     return next(new AppError("You are not logged in!", 401));
   }
@@ -111,3 +111,4 @@ exports.protect = async (req, res, next) => {
   res.locals.user = user;
   next();
 };
+

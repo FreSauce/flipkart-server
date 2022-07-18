@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema({
   },
   confirmPassword: {
     type: String,
-    required: [true, "A user must confirm his password"],
   },
   passwordCreatedAt: {
     type: Date,
@@ -29,12 +28,14 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  character_data: {
+    type: Object,
+  },
 });
 
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 10);
-  this.confirmPassword = undefined;
   next();
 });
 

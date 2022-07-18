@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
 if (process.env.NODE_ENV === "development") app.use(morgan("dev"));
 app.use(cors());
 // app.use(express.json());
