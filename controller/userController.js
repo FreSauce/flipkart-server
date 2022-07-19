@@ -26,11 +26,16 @@ exports.getCharacterData = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
     console.log(user.character_data);
+    let characterType;
+    if (user.character_data.settingsName === "FemaleSettings")
+      characterType = "Female";
+    if (user.character_data.settingsName === "MaleSettings")
+      characterType = "Male";
     res.status(200).json({
       status: "success",
       characterData: user.character_data,
       name: user.name,
-      characterType: user.character_data.settingsName,
+      characterType,
     });
   } catch (err) {
     console.log(err);
