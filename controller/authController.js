@@ -28,7 +28,7 @@ exports.signup = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       token,
-      ...user,
+      user,
     });
   } catch (err) {
     console.log(err);
@@ -71,7 +71,7 @@ exports.login = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       token,
-      ...user,
+      user,
     });
   } catch (err) {
     console.log(err);
