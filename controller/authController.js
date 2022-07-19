@@ -28,7 +28,7 @@ exports.signup = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       token,
-      data: { user },
+      ...user,
     });
   } catch (err) {
     console.log(err);
@@ -53,7 +53,6 @@ exports.login = async (req, res, next) => {
     if (!email || !password) {
       throw new Error("Email and Password not provided");
     }
-    console.log(2);
     const user = await User.findOne({ email: email }).select("+password");
     if (!user || !(await user.checkPassword(password, user.password)))
       return next(new AppError("Incorrect email or password", 401));
@@ -72,7 +71,7 @@ exports.login = async (req, res, next) => {
     res.status(200).json({
       status: "success",
       token,
-      data: { user },
+      ...user,
     });
   } catch (err) {
     console.log(err);
@@ -93,7 +92,7 @@ exports.protect = async (req, res, next) => {
   } else if (req.cookies?.auth) {
     token = req.cookies?.auth;
   }
- 
+
   if (!token) {
     return next(new AppError("You are not logged in!", 401));
   }
@@ -111,4 +110,3 @@ exports.protect = async (req, res, next) => {
   res.locals.user = user;
   next();
 };
-
