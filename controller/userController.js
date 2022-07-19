@@ -25,11 +25,13 @@ exports.storeCharacterData = async (req, res, next) => {
 exports.getCharacterData = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
-    console.log(user.character_data);
+    const parsedCharacterData = JSON.parse(user.character_data);
+    // console.log(parsedCharacterData["settingsName"]);
+    // console.log(2);
     let characterType;
-    if (user.character_data.settingsName === "FemaleSettings")
+    if (parsedCharacterData["settingsName"] === "FemaleSettings")
       characterType = "Female";
-    if (user.character_data.settingsName === "MaleSettings")
+    if (parsedCharacterData["settingsName"] === "MaleSettings")
       characterType = "Male";
     res.status(200).json({
       status: "success",
