@@ -19,6 +19,10 @@ router.get(
   userController.getCharacterData
 );
 
-router.get("/getUserData/:id", userController.getUserData);
+router.get(
+  "/getUserData/:id",
+  authController.protect,
+  userController.getUserData
+);
 
 module.exports = router;
