@@ -44,3 +44,20 @@ exports.getCharacterData = async (req, res, next) => {
     next(new AppError(err.message, 500));
   }
 };
+
+exports.getUserData = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.status(200).json({
+      status: "success",
+      characterData: user.character_data,
+    });
+    res.status(200).json({
+      status: "success",
+      characterData: user.character_data,
+    });
+  } catch (err) {
+    console.log(err);
+    next(new AppError(err.message, 500));
+  }
+};
