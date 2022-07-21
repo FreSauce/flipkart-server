@@ -3,7 +3,9 @@ const cors = require("cors");
 const morgan = require("morgan");
 
 const AppError = require("./AppError");
+const productRouter = require("./routes/productRoutes");
 const userRouter = require("./routes/userRoutes");
+const cartRouter = require("./routes/cartRoutes");
 const bodyParser = require("body-parser");
 
 const app = express();
@@ -19,6 +21,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/users", userRouter);
+app.use("/api/products", productRouter);
+app.use("/api/cart", cartRouter);
 
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
