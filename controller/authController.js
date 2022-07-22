@@ -10,6 +10,7 @@ exports.signup = async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
       confirmPassword: req.body.confirmPassword,
+      character_data: "",
     });
 
     const { password, ...user } = newUser._doc;

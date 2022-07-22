@@ -47,7 +47,9 @@ exports.getCharacterData = async (req, res, next) => {
 
 exports.getUserData = async (req, res, next) => {
   try {
+    console.log(req.params.id);
     const user = await User.findById(req.params.id);
+    console.log(user + "LINE 52");
     const parsedCharacterData = JSON.parse(user.character_data);
 
     let characterType;
