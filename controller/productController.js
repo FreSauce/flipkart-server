@@ -18,7 +18,7 @@ exports.addProduct = async (req, res, next) => {
       console.log(result);
       res.status(200).json({
         status: "success",
-        data: result
+        data: result,
       });
     })
     .catch((err) => {
@@ -32,12 +32,24 @@ exports.getProducts = async (req, res, next) => {
       console.log(products);
       res.status(200).json({
         status: "success",
-        data: result
+        data: products,
       });
     })
     .catch((err) => {
       next(new AppError(err.message, 500));
     });
+};
+
+exports.getParticularProduct = async (req, res, next) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    res.status(200).json({
+      status: "success",
+      data: product,
+    });
+  } catch (err) {
+    next(new AppError(err.message, 500));
+  }
 };
 
 exports.deleteProduct = async (req, res, next) => {
@@ -47,7 +59,7 @@ exports.deleteProduct = async (req, res, next) => {
       console.log(result);
       res.status(200).json({
         status: "success",
-        data: result
+        data: result,
       });
     })
     .catch((err) => {
@@ -68,14 +80,13 @@ exports.updateProduct = (req, res, next) => {
       return product.save();
     })
     .then((result) => {
-      console.log(result); 
+      console.log(result);
       res.status(200).json({
         status: "success",
-        data: result
+        data: result,
       });
     })
     .catch((err) => {
       next(new AppError(err.message, 500));
     });
 };
-
