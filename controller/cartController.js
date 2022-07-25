@@ -62,13 +62,27 @@ exports.deleteFromCart = (req, res, next) => {
 exports.checkOut = async (req, res, next) => {
   let userId = req.user._id;
   try {
-    const cart = await Cart.findOne({ userId }).populate("item.productId");
+    const cart = await Cart.findOne({ userId }).populate("items.productId");
     const items = cart.items.map((i) => ({
       quantity: i.quantity,
       ...i.productId,
     }));
     await sendMail(req.user.email, items);
     res.status(200).json({ message: "Cart Checked Out" });
+  } catch (err) {
+    console.log(err);
+    next(new AppError(err.message, 500));
+  }
+};
+
+exports.getCart = async (req, res, next) => {
+  let userId = req.user._id;
+  try {
+    const cart = await Cart.findOne({ userId }).populate("items.productId");
+    res.status(200).json({
+      status: "success",
+      data: cart,
+    });
   } catch (err) {
     console.log(err);
     next(new AppError(err.message, 500));
