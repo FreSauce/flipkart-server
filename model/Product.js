@@ -9,7 +9,6 @@ const ProductSchema = new Schema({
   },
   description: {
     type: String,
-    required: true,
   },
   link: {
     type: String,
@@ -17,5 +16,4 @@ const ProductSchema = new Schema({
   },
 });
 
-
-module.exports = mongoose.model('Products', ProductSchema);
+module.exports = mongoose.model("Products", ProductSchema);
