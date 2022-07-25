@@ -2,6 +2,7 @@ const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const AppError = require("../AppError");
+const Cart = require("../model/Cart");
 
 exports.signup = async (req, res, next) => {
   try {
@@ -18,18 +19,22 @@ exports.signup = async (req, res, next) => {
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
 
+    const cart = await Cart.create({ userId: newUser._id });
+
     const cookieOptions = {
       expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
       httpOnly: true,
       secure: true,
       sameSite: "None",
     };
+
     res.cookie("auth", token, cookieOptions);
 
     res.status(200).json({
       status: "success",
       token,
       user,
+      cart_id: cart.id,
     });
   } catch (err) {
     console.log(err);
