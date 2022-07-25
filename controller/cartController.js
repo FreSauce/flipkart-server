@@ -1,5 +1,6 @@
 const Cart = require("../model/Cart");
 const AppError = require("../AppError");
+const { sendMail } = require("../utils");
 
 exports.addToCart = (req, res, next) => {
   let productId = req.params.productId;
@@ -71,3 +72,16 @@ exports.deleteFromCart = (req, res, next) => {
       next(new AppError(err.message, 500));
     });
 };
+
+exports.checkOut = async (req, res, next) => {
+  let userId = req.user._id;
+  try {
+    const cart = await Cart.findOne({ userId }).populate('item.productId');
+    const items = cart.items.map(i => ({ quantity: i.quantity, ...i.productId }));
+    await sendMail(req.user.email, items);
+    res.status(200).json({ message: 'Cart Checked Out' });
+  } catch (err) {
+    console.log(err);
+    next(new AppError(err.message, 500));
+  }
+}

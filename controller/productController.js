@@ -1,19 +1,11 @@
 const Product = require("../model/Product");
 const AppError = require("../AppError");
+const axios = require('axios');
 
 exports.addProduct = async (req, res, next) => {
-  const body = req.body;
-  let name = body.name;
-  let description = body.description;
-  let link = body.link;
-
-  const product = new Product({
-    name: name,
-    description: description,
-    link: link,
-  });
-  product
-    .save()
+  const { name, link, price, img } = req.body;
+  const product = new Product({ name: title, link: url, price, img });
+  product.save()
     .then((result) => {
       console.log(result);
       res.status(200).json({
@@ -40,6 +32,19 @@ exports.getProducts = async (req, res, next) => {
     });
 };
 
+exports.getById = async (req, res, next) => {
+  const id = req.params.id;
+  Product.findById(id).then(prod => {
+    console.log(prod);
+    res.status(200).json({
+      status: 'success',
+      data: prod
+    })
+  }).catch((err) => {
+    next(new AppError(err.message, 500));
+  });
+}
+
 exports.deleteProduct = async (req, res, next) => {
   let id = req.body.id;
   Product.findByIdAndRemove(id)
@@ -56,26 +61,13 @@ exports.deleteProduct = async (req, res, next) => {
 };
 
 exports.updateProduct = (req, res, next) => {
-  let id = req.body.id;
-  let updatedName = req.body.name;
-  let updatedDescription = req.body.description;
-  let updatedLink = req.body.link;
-  Product.findById(id)
-    .then((product) => {
-      product.name = updatedName;
-      product.description = updatedDescription;
-      product.link = updatedLink;
-      return product.save();
-    })
-    .then((result) => {
-      console.log(result); 
-      res.status(200).json({
-        status: "success",
-        data: result
-      });
-    })
-    .catch((err) => {
-      next(new AppError(err.message, 500));
-    });
+  const { id, name, description, link, img, price } = req.body;
+  Product.updateOne({ _id: id }, { name, description, link, img, price }).then(result => {
+    console.log(result);
+    res.status(200).json({ status: "success", data: result });
+  }).catch((err) => {
+    console.log(err);
+    next(new AppError(err.message, 500));
+  })
 };
 
