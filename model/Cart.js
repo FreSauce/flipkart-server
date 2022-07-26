@@ -54,10 +54,10 @@ cartSchema.methods.decreaseFromCart = function (productId) {
     if (newQuantity > 0) {
       updatedCartItems[ifExistedIndex].quantity = newQuantity;
     } else {
-        newUpdatedCartItems = updatedCartItems.filter(
+      newUpdatedCartItems = updatedCartItems.filter(
         (product) => product.productId.toString() !== productId.toString());
-        this.items = newUpdatedCartItems;
-        return this.save();
+      this.items = newUpdatedCartItems;
+      return this.save();
     }
   } else {
     throw Error("Item doesn't exist in cart");

@@ -80,9 +80,10 @@ exports.getCart = async (req, res, next) => {
   let userId = req.user._id;
   try {
     const cart = await Cart.findOne({ userId }).populate("items.productId");
+    const items = cart.items.map(item => ({ quantity: item.quantity, ...(item.productId.toObject()) }));
     res.status(200).json({
       status: "success",
-      data: cart,
+      data: items,
     });
   } catch (err) {
     console.log(err);
