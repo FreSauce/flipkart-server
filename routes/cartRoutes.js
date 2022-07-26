@@ -4,7 +4,7 @@ const authController = require("../controller/authController");
 
 const router = express.Router();
 
-router.post(
+router.get(
   "/addToCart/:productId",
   authController.protect,
   cartController.addToCart
