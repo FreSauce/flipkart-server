@@ -17,6 +17,7 @@ exports.addToCart = (req, res, next) => {
       });
     })
     .catch((err) => {
+      console.log(err);
       next(new AppError(err.message, 500));
     });
 };
