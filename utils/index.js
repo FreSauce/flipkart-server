@@ -87,12 +87,12 @@ exports.sendMail = async (mail, cartItems) => {
 		host: 'smtp.gmail.com',
 		secure: true,
 		auth: {
-			user: "rookievesper@gmail.com",
+			user: process.env.MAIL_ID,
 			pass: process.env.MAIL_PASSWORD,
 		},
 	});
 	const mailOptions = {
-		from: 'rookievesper@gmail.com',
+		from: process.env.MAIL_ID,
 		to: mail,
 		subject: "You Order has been placed",
 		html: getHtml(cartItems)
